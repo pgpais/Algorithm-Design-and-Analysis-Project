@@ -18,4 +18,11 @@ public class Problem {
 	public void addConcurrent(int x, int y) {
 		Concurrent.add(new Pair(x,y));
 	}
+	
+	public boolean solve() {
+		//TODO: Criar grafo "Preceding". Comparar Lista "Concurrent" com esse grafo
+		// e procurar inconsistencias
+		
+		return false;
+	}
 }
