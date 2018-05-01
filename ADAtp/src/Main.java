@@ -12,6 +12,24 @@ public class Main {
 		int preConj = Integer.parseInt(info[1]);
 		int concConj = Integer.parseInt(info[2]);
 		
+		Problem prob = new Problem(susp, preConj, concConj);
+		
+		int susp1, susp2 = 0;
+		
+		for(int i = 0; i < preConj; i++) {
+			info = input.readLine().split(" ");
+			susp1 = Integer.parseInt(info[0]);
+			susp2 = Integer.parseInt(info[1]);
+			prob.addPreceding(susp1, susp2);
+		}
+		
+		for(int i = 0; i < concConj; i++) {
+			info = input.readLine().split(" ");
+			susp1 = Integer.parseInt(info[0]);
+			susp2 = Integer.parseInt(info[1]);
+			prob.addConcurrent(susp1, susp2);
+		}
+		
 		
 
 	}
