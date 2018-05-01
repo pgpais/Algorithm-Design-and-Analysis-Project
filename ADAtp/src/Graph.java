@@ -21,5 +21,12 @@ public class Graph {
 		return outDegree[node];
 	}
 	
-	public Iterator
+	public LinkedList<Integer> inAdjacentNodes(int node){
+		//TODO: dafuq? como faço isto?
+		return null;
+	}
+	
+	public LinkedList<Integer> outAdjacentNodes(int node){
+		return graph.get(node);
+	}
 }
