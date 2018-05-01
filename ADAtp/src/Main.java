@@ -30,7 +30,13 @@ public class Main {
 			prob.addConcurrent(susp1, susp2);
 		}
 		
+		input.close();
 		
+		if(prob.solve()) {
+			System.out.println("Consistent conjectures");
+		}
+		else
+			System.out.println("Inconsistent conjectures");
 
 	}
 
