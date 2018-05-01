@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Graph {
 
-	List<Integer> graph;
+	List<LinkedList<Integer>> graph;
 	
 	public Graph(int numNodes){
-		graph = new ArrayList<Integer>(numNodes);
+		graph = new ArrayList<LinkedList<Integer>>(numNodes);
 	}
 }
