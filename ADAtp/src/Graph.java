@@ -8,6 +8,9 @@ public class Graph {
 	int[] inDegree, outDegree;
 	
 	public Graph(int numNodes, List<Pair> edges){
+		
+		System.out.println("numNodes: " + numNodes);
+		
 		graph = new ArrayList<LinkedList<Integer>>(numNodes);
 		inDegree = new int[numNodes];
 		outDegree = new int[numNodes];

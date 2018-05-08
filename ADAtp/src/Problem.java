@@ -10,6 +10,7 @@ public class Problem {
 	public Problem(int nSuspects, int nPreceding, int nConcurrent) {
 		preceding = new ArrayList<Pair>(nPreceding);
 		concurrent = new ArrayList<Pair>(nConcurrent);
+		this.nSuspects = nSuspects;
 	}
 	
 	public void addPreceding(int x, int y) {
