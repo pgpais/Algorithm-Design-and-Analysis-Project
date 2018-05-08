@@ -4,27 +4,33 @@ import java.util.List;
 public class Problem {
 	
 	int nSuspects;
-	List<Pair> Preceding, Concurrent;
+	List<Pair> preceding, concurrent;
 	
 	public Problem(int nSuspects, int nPreceding, int nConcurrent) {
-		Preceding = new ArrayList<Pair>(nPreceding);
-		Concurrent = new ArrayList<Pair>(nConcurrent);
+		preceding = new ArrayList<Pair>(nPreceding);
+		concurrent = new ArrayList<Pair>(nConcurrent);
 	}
 	
 	public void addPreceding(int x, int y) {
-		Preceding.add(new Pair(x,y));
+		preceding.add(new Pair(x,y));
 	}
 	
 	public void addConcurrent(int x, int y) {
-		Concurrent.add(new Pair(x,y));
+		concurrent.add(new Pair(x,y));
 	}
 	
 	public boolean solve() {
 		//TODO: Criar grafo "Preceding". Comparar Lista "Concurrent" com esse grafo
 		// e procurar inconsistencias stuff
 		
+		Graph graph = new Graph(nSuspects, preceding);
+		
+		
+		
 		return false;
 	}
+	
+	private 
 	
 	
 }

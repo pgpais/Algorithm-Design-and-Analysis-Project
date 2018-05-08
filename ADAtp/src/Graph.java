@@ -7,10 +7,13 @@ public class Graph {
 	List<LinkedList<Integer>> graph;
 	int[] inDegree, outDegree;
 	
-	public Graph(int numNodes){
+	public Graph(int numNodes, List<Pair> edges){
 		graph = new ArrayList<LinkedList<Integer>>(numNodes);
 		inDegree = new int[numNodes];
 		outDegree = new int[numNodes];
+		for(Pair p : edges) {
+			graph.get(p.getX()).add(p.getY());
+		}
 	}
 	
 	public int inDegree(int node) {
