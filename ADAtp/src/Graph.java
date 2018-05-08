@@ -11,6 +11,11 @@ public class Graph {
 		graph = new ArrayList<LinkedList<Integer>>(numNodes);
 		inDegree = new int[numNodes];
 		outDegree = new int[numNodes];
+		
+		for(int i = 0; i < numNodes; i++) {
+			graph.add(new LinkedList<Integer>());
+		}
+		
 		for(Pair p : edges) {
 			graph.get(p.getX()).add(p.getY());
 		}
