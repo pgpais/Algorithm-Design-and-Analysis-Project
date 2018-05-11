@@ -1,76 +1,64 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class Problem {
 	
 	int nSuspects;
-	List<Pair> preceding, concurrent;
+	int numNodes;
+	//2n - IN | 2n+1 - OUT
+	LinkedList<Integer>[] conjectures;
+	int[] inDegree;
 	
 	public Problem(int nSuspects, int nPreceding, int nConcurrent) {
-		preceding = new ArrayList<Pair>(nPreceding);
-		concurrent = new ArrayList<Pair>(nConcurrent);
 		this.nSuspects = nSuspects;
+		numNodes = 2*nSuspects;
+		conjectures = new LinkedList[numNodes];
+		inDegree = new int[numNodes];
+		for(int i = 0; i < nSuspects; i++) {
+			int doubleI = i*2;
+			conjectures[doubleI] = new LinkedList<Integer>();
+			conjectures[doubleI].add(i*2 + 1);
+			conjectures[doubleI + 1] = new LinkedList<Integer>();
+			inDegree[doubleI + 1] ++;
+		}
 	}
 	
 	public void addPreceding(int x, int y) {
-		preceding.add(new Pair(x,y));
+		int doubleX = 2*x;
+		int doubleY = 2*y;
+		conjectures[doubleX + 1].add(doubleY);
+		inDegree[doubleY]++;
 	}
 	
 	public void addConcurrent(int x, int y) {
-		concurrent.add(new Pair(x,y));
+		int doubleX = 2*x;
+		int doubleY = 2*y;
+		conjectures[doubleX].add(doubleY +1);
+		inDegree[doubleY + 1]++;
+		conjectures[doubleY].add(doubleX +1);
+		inDegree[doubleX + 1]++;
 	}
 	
 	public boolean solve() {
-		//TODO: Criar grafo "Preceding". Comparar Lista "Concurrent" com esse grafo
-		// e procurar inconsistencias stuff
+		int numProcNodes = 0;
+		Stack<Integer> ready = new Stack<Integer>();
 		
-		Graph graph = new Graph(nSuspects, preceding);
+		for(int i = 0; i < numNodes; i++) {
+			if(inDegree[i] == 0)
+				ready.push(i);
+		}
 		
-		boolean[] processed = new boolean[nSuspects];
-		
-		/*
-		 * Checks every Pair with the graph.
-		 */
-		for(Pair p : concurrent) {
-			if(!dfsExplore(graph, p.getX(), p.getY(), processed)) {
-				if(!dfsExplore(graph, p.getY(), p.getX(), processed)) {
-					return false;
+		while(!ready.isEmpty()) {
+			int node = ready.pop();
+			numProcNodes++;
+			for(int n : conjectures[node]) {
+				inDegree[n]--;
+				if(inDegree[n] == 0) {
+					ready.push(n);
 				}
 			}
 		}
 		
-		return true;
-	}
-	
-	
-	/*
-	 * Depth First Traversal - Tries to find the goal node, returns as soon as it is found.
-	 */
-	private boolean dfsExplore(Graph graph, int startNode, int goal, boolean[] processed) {
-		
-		Stack<Integer> foundUnprocessed = new Stack<Integer>();
-		foundUnprocessed.push(startNode);
-		
-		do {
-			int node = foundUnprocessed.pop();
-			if(!processed[node]) {
-				//Process
-				if(node == goal) {
-					return false;
-				}
-				processed[node] = true;
-				
-				for(int v : graph.outAdjacentNodes(node)) {
-					if(!processed[v]) {
-						foundUnprocessed.push(v);
-					}
-				}
-			}
-		} while(!foundUnprocessed.isEmpty());
-		
-		return true;
-	}
-	
-	
+		return numProcNodes == numNodes;
+	}	
 }
