@@ -11,14 +11,17 @@ public class Problem {
 	char[][] map;
 	int[][] lantern;
 	int[][] steps;
+	int[][] testGrid;
 
 	public Problem(int w, int  h) {
 		map = new char[h][w];
 		lantern = new int[h][w];
+		testGrid = new int[h][w];
 
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
 				lantern[i][j] = -1;
+				testGrid[i][j] = 0;
 			}
 		}
 
@@ -59,6 +62,13 @@ public class Problem {
 			int[] node = waiting.poll();
 			// process
 			if (node[0] == w-1 && node[1] == h-1) {
+				for (int i = 0; i < h; i++) {
+					for (int j = 0; j < w; j++) {
+						System.out.print(testGrid[i][j] + " ");
+					}
+					System.out.println();
+				}
+				System.out.println(node[0] + " " + node[1]);
 				return node[3];
 			}
 			if (canMove(node, node[0]+1, node[1])) {
@@ -80,7 +90,7 @@ public class Problem {
 
 	int[] moveTo(int[] node, int x2, int y2) {
 		int lantern = node[2];
-
+		testGrid[x2][y2]++;
 		// se nao for lampada, reduz lantern
 		if (map[x2][y2] != '*') {
 			// se for lantern, substitui se tiver mais carga
@@ -95,7 +105,7 @@ public class Problem {
 			}
 		}
 
-		return new int[] { x2, y2, lantern, node[3]++ };
+		return new int[] { x2, y2, lantern, node[3]+1 };
 	}
 
 	int[] createNode(int x, int y, int lanternLevel, int dist) {
