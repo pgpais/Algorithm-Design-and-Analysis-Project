@@ -6,21 +6,16 @@ import java.util.Queue;
 
 public class Problem {
 
-	int lanternLevel;
 	int w, h;
 	char[][] map;
-	int[][] lantern;
-	int[][] steps;
 	int[][] testGrid;
 
 	public Problem(int w, int  h) {
 		map = new char[w][h];
-		lantern = new int[h][w];
 		testGrid = new int[w][h];
 
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
-				lantern[i][j] = -1;
 				testGrid[j][i] = 0;
 			}
 		}
@@ -28,7 +23,6 @@ public class Problem {
 		this.w = w;
 		this.h = h;
 
-		lanternLevel = 0;
 	}
 
 	public void addLine(char[] line, int rowNum) {
@@ -64,13 +58,14 @@ public class Problem {
 			int[] node = waiting.poll();
 			// process
 			if (node[0] == w-1 && node[1] == h-1) {
-				for (int i = 0; i < h; i++) {
-					for (int j = 0; j < w; j++) {
-						System.out.print(testGrid[j][i] + " ");
-					}
-					System.out.println();
-				}
-				System.out.println(node[0] + " " + node[1]);
+				//for testing purposes
+//				for (int i = 0; i < h; i++) {
+//					for (int j = 0; j < w; j++) {
+//						System.out.print(testGrid[j][i] + " ");
+//					}
+//					System.out.println();
+//				}
+//				System.out.println(node[0] + " " + node[1]);
 				return node[3];
 			}
 			if (canMove(node, node[0]+1, node[1])) {
