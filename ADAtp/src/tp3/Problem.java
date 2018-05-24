@@ -14,14 +14,14 @@ public class Problem {
 	int[][] testGrid;
 
 	public Problem(int w, int  h) {
-		map = new char[h][w];
+		map = new char[w][h];
 		lantern = new int[h][w];
-		testGrid = new int[h][w];
+		testGrid = new int[w][h];
 
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
 				lantern[i][j] = -1;
-				testGrid[i][j] = 0;
+				testGrid[j][i] = 0;
 			}
 		}
 
@@ -34,7 +34,7 @@ public class Problem {
 	public void addLine(char[] line, int rowNum) {
 		for (int i = 0; i < line.length; i++) {
 			char c = line[i];
-			map[rowNum][i] = c;
+			map[i][rowNum] = c;
 		}
 	}
 
@@ -45,7 +45,9 @@ public class Problem {
 
 	boolean canMove(int[] node, int x2, int y2) {
 		if (x2 >= 0 && x2 < w && y2 >= 0 && y2 < h) {
-			if ((map[x2][y2] == '*' || map[node[0]][node[1]] == '*')) {
+			if (map[x2][y2] == '*') {
+				return true;
+			} else if ( map[node[0]][node[1]] == '*') {
 				return true;
 			} else if (node[2] > 0)
 				return true;
@@ -64,7 +66,7 @@ public class Problem {
 			if (node[0] == w-1 && node[1] == h-1) {
 				for (int i = 0; i < h; i++) {
 					for (int j = 0; j < w; j++) {
-						System.out.print(testGrid[i][j] + " ");
+						System.out.print(testGrid[j][i] + " ");
 					}
 					System.out.println();
 				}
