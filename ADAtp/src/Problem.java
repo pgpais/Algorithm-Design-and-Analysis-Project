@@ -9,6 +9,7 @@ public class Problem {
 	LinkedList<Integer>[] conjectures;
 	int[] inDegree;
 	
+	@SuppressWarnings("unchecked")
 	public Problem(int nSuspects, int nPreceding, int nConcurrent) {
 		this.nSuspects = nSuspects;
 		numNodes = 2*nSuspects;
