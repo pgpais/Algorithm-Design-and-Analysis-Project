@@ -4,18 +4,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Problem {
-
+	
+//	int generatedNodes = 0;
 	int w, h;
 	char[][] map;
-	int[][] lanternLevel;
+	int[][] lanternLevel; // saves the best lantern at a given pos
 
 	public Problem(int w, int h) {
 		map = new char[w][h];
 		lanternLevel = new int[w][h];
 
-		for (int i = 0; i < h; i++) {
-			for (int j = 0; j < w; j++) {
-				lanternLevel[j][i] = -1; // saves the best lantern at a given pos
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
+				lanternLevel[i][j] = -1; 
 			}
 		}
 
@@ -33,15 +34,18 @@ public class Problem {
 
 	boolean canMove(int[] node, int x2, int y2) {
 		if (x2 >= 0 && x2 < w && y2 >= 0 && y2 < h) { // if inside map
-			if (lanternLevel[x2][y2] < node[2]-1) {// if not been there with a better lanternLevel
-				return true;
-			} else if (map[x2][y2] == '*') { // if going to lamp
-				return true;
-			} else if (map[node[0]][node[1]] == '*') { // if on lamp
-				return true;
-			} else if (node[2] > 0) { // if lanternlevel wouldn't be negative
-				return true;
+			
+			if(map[node[0]][node[1]] == '*' || map[x2][y2] == '*') {
+				if(lanternLevel[x2][y2] >= node[2]) {
+					return false;
+				}
+				
+			} else if (lanternLevel[x2][y2] >= node[2]-1) {// if not been there with a better lanternLevel
+				return false;
+			} else if (node[2] <= 0) { // if lanternlevel wouldn't be negative
+				return false;
 			}
+			return true;
 		}
 		return false;
 	}
@@ -51,20 +55,15 @@ public class Problem {
 		int[] node = new int[] { 0, 0, 0, 0 };
 		node[2] = map[0][0] == '*' ? 0 : Character.getNumericValue(map[0][0]);
 		waiting.add(node);
+		
+		lanternLevel[0][0] = node[2];
 
 		do {
 			// [0] x, [1] y, [2] lanternLevel, [3] dist.
 			node = waiting.poll();
 			// process
-			if (node[0] == w - 1 && node[1] == h - 1) {
-				// for testing purposes
-				// for (int i = 0; i < h; i++) {
-				// for (int j = 0; j < w; j++) {
-				// System.out.print(testGrid[j][i] + " ");
-				// }
-				// System.out.println();
-				// }
-				// System.out.println(node[0] + " " + node[1]);
+			if (node[0] == w - 1 && node[1] == h - 1) { // DONE!
+//				System.out.println("Generated nodes: " + generatedNodes);
 				return node[3];
 			}
 			if (canMove(node, node[0] + 1, node[1])) {
@@ -79,7 +78,7 @@ public class Problem {
 			if (canMove(node, node[0], node[1] - 1)) {
 				waiting.add(moveTo(node, node[0], node[1] - 1));
 			}
-
+			
 		} while (!waiting.isEmpty());
 		return -1;
 	}
@@ -91,15 +90,16 @@ public class Problem {
 		if (map[x2][y2] != '*' && map[node[0]][node[1]] != '*') {
 				lantern--;
 		}
+		
+		lanternLevel[x2][y2] = lantern;
 
 		// se for lantern, substitui se tiver mais carga
 		int mapLight = Character.getNumericValue(map[x2][y2]);
 		if (mapLight > lantern) {
 			lantern = mapLight;
 		}
-
-		lanternLevel[x2][y2] = lantern;
 		
-		return new int[] { x2, y2, lantern, node[3] + 1 };
+//		generatedNodes++;
+		return new int[] {x2, y2, lantern, node[3] + 1};
 	}
 }
